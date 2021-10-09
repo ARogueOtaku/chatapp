@@ -1,4 +1,5 @@
 import 'package:appwrite/appwrite.dart';
+import 'package:appwrite/models.dart';
 import 'package:chatapp/constants/api_constants.dart';
 
 class APIServer {
@@ -19,5 +20,14 @@ class APIServer {
 
   static Account get account {
     return APIServer.instance._account;
+  }
+
+  static Future<User> get currentUser async {
+    return await APIServer.instance._account.get();
+  }
+
+  Future<Session> createSession(String email, String password) async {
+    return await APIServer.account
+        .createSession(email: email, password: password);
   }
 }
