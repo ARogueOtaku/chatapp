@@ -1,2 +1,2 @@
 # chatapp
-A chat application made for both Mobile and Web using Appwrite as a backend.
+A chat application made for both Mobile(Flutter) and Web(React) using Appwrite as a backend.
