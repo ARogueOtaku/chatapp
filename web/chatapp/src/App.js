@@ -1,18 +1,23 @@
-import "./App.css";
+import useUser from "./hooks/useUser.js";
+import Login from "./pages/Login.js";
 
-function App() {
+const App = () => {
+  const [user, userLoading, userError, login, logout] = useUser();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {user ? (
+        <div>
+          <pre>{JSON.stringify(user, null, "\t")}</pre>
+          <input type="button" id="logout" value="Logout" onClick={logout} />
+        </div>
+      ) : (
+        <Login login={login} />
+      )}
+      {userLoading ? <p>User Loading</p> : ""}
+      <p>{userError}</p>
+    </>
   );
-}
+};
 
 export default App;
