@@ -18,16 +18,24 @@ class APIServer {
     return _instance ??= APIServer._internal();
   }
 
-  static Account get account {
-    return APIServer.instance._account;
-  }
-
   static Future<User> get currentUser async {
     return await APIServer.instance._account.get();
   }
 
   Future<Session> createSession(String email, String password) async {
-    return await APIServer.account
+    return await APIServer.instance._account
         .createSession(email: email, password: password);
+  }
+
+  Future<User> createUser(String email, String password, String name) async {
+    return await APIServer.instance._account.create(
+      email: email,
+      password: password,
+      name: name,
+    );
+  }
+
+  Future<User> getLoggedInUser() async {
+    return await APIServer._instance!._account.get();
   }
 }

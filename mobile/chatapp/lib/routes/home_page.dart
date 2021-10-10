@@ -1,4 +1,4 @@
-import 'package:chatapp/server/shared_pref.dart';
+import 'package:chatapp/services/shared_pref.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {

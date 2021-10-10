@@ -1,19 +1,29 @@
-import 'package:chatapp/blocs/loginbloc/login_bloc.dart';
+import 'package:chatapp/blocs/authbloc/auth_bloc.dart';
 import 'package:chatapp/constants/string_constants.dart';
 import 'package:chatapp/routes/home_page.dart';
+import 'package:chatapp/routes/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   static const String routeName = 'Login';
-  LoginPage({Key? key}) : super(key: key);
+  const LoginPage({Key? key}) : super(key: key);
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey();
+
   final TextEditingController _email = TextEditingController();
+
   final TextEditingController _password = TextEditingController();
 
   void _login(BuildContext context) {
     if (_formKey.currentState!.validate()) {
-      context.read<LoginBloc>().add(
+      context.read<AuthBloc>().add(
             Login(_email.text, _password.text),
           );
     }
@@ -25,7 +35,7 @@ class LoginPage extends StatelessWidget {
       body: Form(
         key: _formKey,
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(16.0.sp),
           child: Center(
             child: SingleChildScrollView(
               child: Column(
@@ -63,11 +73,12 @@ class LoginPage extends StatelessWidget {
                         }
                       }
                     },
+                    onFieldSubmitted: (_) => _login(context),
                   ),
                   const SizedBox(
                     height: 20,
                   ),
-                  BlocConsumer<LoginBloc, LoginState>(
+                  BlocConsumer<AuthBloc, AuthState>(
                     listener: (context, state) {
                       if (state is LoginLoading) {
                         debugPrint('Loding');
@@ -77,9 +88,7 @@ class LoginPage extends StatelessWidget {
                       }
                       if (state is LoginDone) {
                         Navigator.of(context).pushNamedAndRemoveUntil(
-                          HomePage.routeName,
-                          (route) => false,
-                        );
+                            HomePage.routeName, (route) => false);
                       }
                     },
                     builder: (context, state) {
@@ -95,7 +104,11 @@ class LoginPage extends StatelessWidget {
                     },
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(
+                        SignUpPage.routeName,
+                      );
+                    },
                     child: const Text(AppStrings.signup),
                   )
                 ],
