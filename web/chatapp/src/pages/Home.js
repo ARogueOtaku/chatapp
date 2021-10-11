@@ -1,18 +1,13 @@
 import { useContext } from "react";
-import { Redirect } from "react-router";
 import { UserContext } from "../contexts/UserContext";
 
 const Home = () => {
-  const { user, logout, userLoading } = useContext(UserContext);
-  return userLoading ? (
-    "Loading"
-  ) : user ? (
+  const { user, logout } = useContext(UserContext);
+  return (
     <div>
       <pre>{JSON.stringify(user, null, "\t")}</pre>
       <input type="button" id="logout" value="Logout" onClick={logout} />
     </div>
-  ) : (
-    <Redirect to="/login" />
   );
 };
 

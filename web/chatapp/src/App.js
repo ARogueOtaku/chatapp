@@ -4,15 +4,14 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Home from "./pages/Home.js";
 import Register from "./pages/Register.js";
 import Verify from "./pages/Verify.js";
+import ProtectedRoute from "./components/ProtectedRoute.js";
 
 const App = () => {
   return (
     <UserContextProvider>
       <BrowserRouter>
         <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
+          <ProtectedRoute exact path="/" component={Home} />
           <Route path="/login">
             <Login />
           </Route>
