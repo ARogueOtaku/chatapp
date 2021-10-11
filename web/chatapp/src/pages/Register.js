@@ -1,17 +1,32 @@
 import { useContext, useState } from "react";
 import { Redirect } from "react-router";
-import { Link } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
 
-const Login = () => {
+const Register = () => {
+  const { user, signup } = useContext(UserContext);
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-  const { user, login } = useContext(UserContext);
   return user ? (
     <Redirect to="/" />
   ) : (
     <table>
       <tbody>
+        <tr>
+          <td>
+            <label htmlFor="name">Name:</label>
+          </td>
+          <td>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              autoComplete="none"
+            />
+          </td>
+        </tr>
         <tr>
           <td>
             <label htmlFor="email">Email:</label>
@@ -42,16 +57,14 @@ const Login = () => {
           </td>
         </tr>
         <tr>
-          <td>
-            <Link to="/register">Sign Up</Link>
-          </td>
+          <td></td>
           <td>
             <input
               type="button"
-              id="login"
-              value="Login"
+              id="register"
+              value="Register"
               onClick={() => {
-                login(email, password);
+                signup(email, password, name);
               }}
             />
           </td>
@@ -61,4 +74,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

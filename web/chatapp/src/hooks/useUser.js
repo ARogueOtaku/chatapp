@@ -46,11 +46,32 @@ const useUser = () => {
     setUserLoading(false);
   }, []);
 
+  const signup = useCallback(async (email, password, name) => {
+    setUserLoading(true);
+    try {
+      await appwriteApi.createAccount(email, password, name);
+      await appwriteApi.createSession(email, password);
+      await appwriteApi.sendVerificationEmail();
+      const currentUser = await appwriteApi.getAccount();
+      setUser(currentUser);
+      setUserError("");
+    } catch (e) {
+      console.log(e.message);
+      setUserError(e.message);
+      setUser(null);
+    }
+    setUserLoading(false);
+  }, []);
+
   useEffect(() => {
     fetchCurrentUser();
   }, [fetchCurrentUser]);
 
-  return [user, userLoading, userError, login, logout];
+  const verify = useCallback(async (userid, secret) => {
+    await appwriteApi.verifyUser(userid, secret);
+  }, []);
+
+  return [user, userLoading, userError, login, logout, signup, verify];
 };
 
 export default useUser;
