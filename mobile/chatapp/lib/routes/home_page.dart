@@ -42,7 +42,9 @@ class _HomePageState extends State<HomePage> {
           }
           if (state is EmailVerifyLoaded) {
             if (state.user.emailVerification) {
-              return const Text('Email Verified');
+              return const Center(
+                child: Text('Email Verified'),
+              );
             } else {
               return EmailNotVerified(
                 onTap: onTap,

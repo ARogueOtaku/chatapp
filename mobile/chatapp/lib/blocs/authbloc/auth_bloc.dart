@@ -2,7 +2,6 @@ import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
 import 'package:bloc/bloc.dart';
 import 'package:chatapp/services/api_server.dart';
-import 'package:chatapp/services/shared_pref.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
@@ -39,6 +38,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(SignUpLoading());
           final _user = await APIServer.instance
               .createUser(event.email, event.password, event.name);
+          await APIServer.instance.createSession(event.email, event.password);
+          await APIServer.instance.createVerification();
+          await APIServer.instance.logout();
           emit(
             SignUpDone(_user),
           );

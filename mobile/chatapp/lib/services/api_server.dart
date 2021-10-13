@@ -30,6 +30,17 @@ class APIServer {
     );
   }
 
+  Future<Token> createVerification() async {
+    return await APIServer._instance!._account.createVerification(
+      url: APIConstants.apiEmailVerification,
+    );
+  }
+
+  Future<void> logout() async {
+    return await APIServer._instance!._account
+        .deleteSession(sessionId: 'current');
+  }
+
   Future<User> getLoggedInUser() async {
     return await APIServer._instance!._account.get();
   }
