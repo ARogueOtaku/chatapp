@@ -19,7 +19,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           event.password,
         );
         final user = await APIServer.instance.getLoggedInUser();
-        await APISharedPrefs().addUserToPrefs(user);
         emit.call(
           LoginDone(
             user,
@@ -34,21 +33,41 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     });
 
-    on<SignUp>((event, emit) async {
-      try {
-        emit(SignUpLoading());
-        final _user = await APIServer.instance
-            .createUser(event.email, event.password, event.name);
-        emit(
-          SignUpDone(_user),
-        );
-      } on AppwriteException catch (e) {
-        emit(
-          SignUpError(
-            e.message.toString(),
-          ),
-        );
-      }
-    });
+    on<SignUp>(
+      (event, emit) async {
+        try {
+          emit(SignUpLoading());
+          final _user = await APIServer.instance
+              .createUser(event.email, event.password, event.name);
+          emit(
+            SignUpDone(_user),
+          );
+        } on AppwriteException catch (e) {
+          emit(
+            SignUpError(
+              e.message.toString(),
+            ),
+          );
+        }
+      },
+    );
+
+    on<EmailVerificationCheck>(
+      (event, emit) async {
+        try {
+          emit(
+            EmailVerifyLoading(),
+          );
+          final user = await APIServer.instance.getLoggedInUser();
+          emit(EmailVerifyLoaded(user));
+        } on AppwriteException catch (e) {
+          emit(
+            EmailVerifyError(
+              e.message.toString(),
+            ),
+          );
+        }
+      },
+    );
   }
 }

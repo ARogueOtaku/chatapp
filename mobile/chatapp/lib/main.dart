@@ -1,10 +1,8 @@
-import 'package:appwrite/models.dart';
 import 'package:chatapp/blocs/authbloc/auth_bloc.dart';
 import 'package:chatapp/routes/home_page.dart';
 import 'package:chatapp/routes/login_page.dart';
 import 'package:chatapp/routes/signup_page.dart';
 import 'package:chatapp/services/api_server.dart';
-import 'package:chatapp/services/shared_pref.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -44,7 +42,7 @@ class _MyAppState extends State<MyApp> {
             primarySwatch: Colors.blue,
           ),
           home: FutureBuilder(
-            future: APIServer.currentUser,
+            future: APIServer.instance.getLoggedInUser(),
             builder: (ctx, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Scaffold(
@@ -54,7 +52,6 @@ class _MyAppState extends State<MyApp> {
                 );
               }
               if (snapshot.hasData) {
-                APISharedPrefs().addUserToPrefs(snapshot.data as User);
                 return const HomePage();
               } else {
                 return const LoginPage();

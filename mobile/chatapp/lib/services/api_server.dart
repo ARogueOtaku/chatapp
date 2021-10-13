@@ -9,17 +9,12 @@ class APIServer {
 
   APIServer._internal() {
     _client = Client(endPoint: APIConstants.apiUrl)
-        .setProject(APIConstants.projectID)
-        .setSelfSigned();
+        .setProject(APIConstants.projectID);
     _account = Account(_client);
   }
 
   static APIServer get instance {
     return _instance ??= APIServer._internal();
-  }
-
-  static Future<User> get currentUser async {
-    return await APIServer.instance._account.get();
   }
 
   Future<Session> createSession(String email, String password) async {

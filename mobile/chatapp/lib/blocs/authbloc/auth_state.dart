@@ -28,3 +28,15 @@ class SignUpDone extends AuthState {
   final User user;
   SignUpDone(this.user);
 }
+
+class EmailVerifyLoading extends AuthState {}
+
+class EmailVerifyLoaded extends AuthState {
+  final User user;
+  EmailVerifyLoaded(this.user);
+}
+
+class EmailVerifyError extends AuthState {
+  final String message;
+  EmailVerifyError(this.message);
+}
