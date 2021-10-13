@@ -15,3 +15,7 @@ class SignUp extends AuthEvent {
   final String name;
   SignUp(this.email, this.password, this.name);
 }
+
+class EmailVerificationCheck extends AuthEvent {
+  EmailVerificationCheck();
+}

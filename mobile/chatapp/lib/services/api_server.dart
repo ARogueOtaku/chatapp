@@ -9,17 +9,12 @@ class APIServer {
 
   APIServer._internal() {
     _client = Client(endPoint: APIConstants.apiUrl)
-        .setProject(APIConstants.projectID)
-        .setSelfSigned();
+        .setProject(APIConstants.projectID);
     _account = Account(_client);
   }
 
   static APIServer get instance {
     return _instance ??= APIServer._internal();
-  }
-
-  static Future<User> get currentUser async {
-    return await APIServer.instance._account.get();
   }
 
   Future<Session> createSession(String email, String password) async {
@@ -33,6 +28,17 @@ class APIServer {
       password: password,
       name: name,
     );
+  }
+
+  Future<Token> createVerification() async {
+    return await APIServer._instance!._account.createVerification(
+      url: APIConstants.apiEmailVerification,
+    );
+  }
+
+  Future<void> logout() async {
+    return await APIServer._instance!._account
+        .deleteSession(sessionId: 'current');
   }
 
   Future<User> getLoggedInUser() async {
