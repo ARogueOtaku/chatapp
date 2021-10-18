@@ -1,6 +1,8 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
 import 'package:bloc/bloc.dart';
+import 'package:chatapp/constants/api_constants.dart';
+import 'package:chatapp/models/user_db.dart';
 import 'package:chatapp/services/api_server.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
@@ -39,6 +41,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           final _user = await APIServer.instance
               .createUser(event.email, event.password, event.name);
           await APIServer.instance.createSession(event.email, event.password);
+          UserDB user = UserDB(
+            _user.$id,
+            _user.name,
+            _user.email,
+            false,
+            DateTime.now().millisecondsSinceEpoch,
+            false,
+          );
+          await APIServer.instance.createDocument(
+            APIConstants.userDB,
+            user.toMap(),
+            ['role:member'],
+            ['user:${_user.$id}'],
+          );
           await APIServer.instance.createVerification();
           await APIServer.instance.logout();
           emit(
