@@ -1,4 +1,5 @@
 import 'package:chatapp/blocs/authbloc/auth_bloc.dart';
+import 'package:chatapp/routes/bottom_app_bar_home.dart';
 import 'package:chatapp/widgets/email_not_verified.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,9 +43,7 @@ class _HomePageState extends State<HomePage> {
           }
           if (state is EmailVerifyLoaded) {
             if (state.user.emailVerification) {
-              return const Center(
-                child: Text('Email Verified'),
-              );
+              return const CustomBottomAppBar();
             } else {
               return EmailNotVerified(
                 onTap: onTap,
