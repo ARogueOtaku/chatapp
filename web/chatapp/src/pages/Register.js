@@ -1,12 +1,24 @@
-import { useContext, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { Redirect } from "react-router";
-import { UserContext } from "../contexts/UserContext";
+import AlertContext from "../contexts/AlertContext";
+import UserContext from "../contexts/UserContext";
+import { ALERT_TYPES } from "../hooks/useAlert";
 
 const Register = () => {
   const { user, signup } = useContext(UserContext);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+  const { setAlert } = useContext(AlertContext);
+
+  const handleSignup = useCallback(async () => {
+    try {
+      await signup(email, password, name);
+    } catch (e) {
+      setAlert({ message: e.message, type: ALERT_TYPES.ERROR });
+    }
+  }, [email, password, name, signup, setAlert]);
+
   return user ? (
     <Redirect to="/" />
   ) : (
@@ -59,14 +71,7 @@ const Register = () => {
         <tr>
           <td></td>
           <td>
-            <input
-              type="button"
-              id="register"
-              value="Register"
-              onClick={() => {
-                signup(email, password, name);
-              }}
-            />
+            <input type="button" id="register" value="Register" onClick={handleSignup} />
           </td>
         </tr>
       </tbody>

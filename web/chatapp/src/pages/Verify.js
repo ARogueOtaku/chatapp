@@ -1,6 +1,6 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 import { Redirect } from "react-router";
-import { UserContext } from "../contexts/UserContext";
+import UserContext from "../contexts/UserContext";
 
 const Verify = () => {
   const [done, setDone] = useState(false);

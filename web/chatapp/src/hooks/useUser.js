@@ -4,14 +4,12 @@ import appwriteApi from "../utils/appwriteApi";
 const useUser = () => {
   const [user, setUser] = useState(null);
   const [userLoading, setUserLoading] = useState(true);
-  const [userError, setUserError] = useState("");
 
   const fetchCurrentUser = useCallback(async () => {
     setUserLoading(true);
     try {
       const currentUser = await appwriteApi.getAccount();
       setUser(currentUser);
-      setUserError("");
     } catch (e) {
       console.log(e.message);
       setUser(null);
@@ -25,24 +23,18 @@ const useUser = () => {
       await appwriteApi.createSession(email, password);
       const currentUser = await appwriteApi.getAccount();
       setUser(currentUser);
-      setUserError("");
     } catch (e) {
       console.log(e.message);
-      setUserError(e.message);
       setUser(null);
+      throw e;
     }
     setUserLoading(false);
   }, []);
 
   const logout = useCallback(async () => {
     setUserLoading(true);
-    try {
-      await appwriteApi.deleteCurrentSession();
-      setUser(null);
-      setUserError("");
-    } catch (e) {
-      setUserError(e.message);
-    }
+    await appwriteApi.deleteCurrentSession();
+    setUser(null);
     setUserLoading(false);
   }, []);
 
@@ -54,11 +46,10 @@ const useUser = () => {
       await appwriteApi.sendVerificationEmail();
       const currentUser = await appwriteApi.getAccount();
       setUser(currentUser);
-      setUserError("");
     } catch (e) {
       console.log(e.message);
-      setUserError(e.message);
       setUser(null);
+      throw e;
     }
     setUserLoading(false);
   }, []);
@@ -71,7 +62,7 @@ const useUser = () => {
     await appwriteApi.verifyUser(userid, secret);
   }, []);
 
-  return [user, userLoading, userError, login, logout, signup, verify];
+  return [user, userLoading, login, logout, signup, verify];
 };
 
 export default useUser;
