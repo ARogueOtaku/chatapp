@@ -1,23 +1,23 @@
-import 'package:appwrite/models.dart';
 import 'package:chatapp/blocs/authbloc/auth_bloc.dart';
 import 'package:chatapp/routes/home_page.dart';
 import 'package:chatapp/routes/login_page.dart';
 import 'package:chatapp/routes/signup_page.dart';
 import 'package:chatapp/services/api_server.dart';
-import 'package:chatapp/services/shared_pref.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() async {
-  runApp(MultiBlocProvider(
-    providers: [
-      BlocProvider(
-        create: (ctx) => AuthBloc(),
-      ),
-    ],
-    child: const MyApp(),
-  ));
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (ctx) => AuthBloc(),
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -39,12 +39,13 @@ class _MyAppState extends State<MyApp> {
       designSize: const Size(390.0, 844.0),
       builder: () {
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           title: 'Chat App',
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
           home: FutureBuilder(
-            future: APIServer.currentUser,
+            future: APIServer.instance.checkAndUpdateLoggedInUser(),
             builder: (ctx, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Scaffold(
@@ -54,9 +55,10 @@ class _MyAppState extends State<MyApp> {
                 );
               }
               if (snapshot.hasData) {
-                APISharedPrefs().addUserToPrefs(snapshot.data as User);
+                //debugPrint((snapshot.data as User).toMap().toString());
                 return const HomePage();
               } else {
+                //debugPrint(snapshot.error.toString());
                 return const LoginPage();
               }
             },
