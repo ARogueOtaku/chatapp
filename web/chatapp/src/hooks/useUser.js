@@ -26,6 +26,7 @@ const useUser = () => {
     } catch (e) {
       console.log(e.message);
       setUser(null);
+      setUserLoading(false);
       throw e;
     }
     setUserLoading(false);
@@ -49,6 +50,7 @@ const useUser = () => {
     } catch (e) {
       console.log(e.message);
       setUser(null);
+      setUserLoading(false);
       throw e;
     }
     setUserLoading(false);

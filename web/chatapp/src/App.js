@@ -2,7 +2,7 @@ import { UserContextProvider } from "./contexts/UserContext.js";
 import { AlertContextProvider } from "./contexts/AlertContext.js";
 import Login from "./pages/Login.js";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Home from "./pages/Home.js";
+import Settings from "./pages/Settings.js";
 import Register from "./pages/Register.js";
 import Verify from "./pages/Verify.js";
 import ProtectedRoute from "./components/logical/ProtectedRoute.js";
@@ -14,7 +14,7 @@ const App = () => {
       <AlertContextProvider>
         <BrowserRouter>
           <Switch>
-            <ProtectedRoute exact path="/" component={Home} />
+            <ProtectedRoute exact path="/" component={Settings} />
             <Route path="/login">
               <Login />
             </Route>

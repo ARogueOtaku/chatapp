@@ -3,7 +3,7 @@ import AlertContext from "../contexts/AlertContext";
 import UserContext from "../contexts/UserContext";
 import { ALERT_TYPES } from "../hooks/useAlert";
 
-const Home = () => {
+const Settings = () => {
   const { user, logout } = useContext(UserContext);
   const { setAlert } = useContext(AlertContext);
 
@@ -23,4 +23,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Settings;
