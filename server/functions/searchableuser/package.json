@@ -1,0 +1,16 @@
+{
+  "name": "searchableuser",
+  "version": "1.0.0",
+  "description": "Create/Update Searchable App Users",
+  "main": "function.js",
+  "scripts": {
+    "test": "node function.js"
+  },
+  "keywords": [],
+  "author": "Amit Das",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "node-appwrite": "^2.5.1"
+  }
+}

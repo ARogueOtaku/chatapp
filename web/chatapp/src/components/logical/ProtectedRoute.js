@@ -1,12 +1,10 @@
 import { useContext } from "react";
 import { Redirect, Route } from "react-router";
-import { UserContext } from "../contexts/UserContext";
+import UserContext from "../../contexts/UserContext";
 
 const ProtectedRoute = ({ component: Component, exact, path, ...componentProps }) => {
-  const { user, userLoading } = useContext(UserContext);
-  return userLoading ? (
-    "Loading"
-  ) : user ? (
+  const { user } = useContext(UserContext);
+  return user ? (
     <Route exact={exact} path={path}>
       <Component {...componentProps} />
     </Route>
