@@ -2,12 +2,10 @@ import { useContext, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import AlertContext from "../../contexts/AlertContext.js";
 import Alert from "../visual/Alert.js";
-import { ALERT_TYPES } from "../../hooks/useAlert.js";
 
 const Notification = () => {
   const { alert, showAlert, setShowAlert } = useContext(AlertContext);
   const location = useLocation();
-  const color = alert.type === ALERT_TYPES.ERROR ? "red" : alert.type === ALERT_TYPES.INFO ? "green" : "yellow";
 
   useEffect(() => {
     setShowAlert(true);
@@ -23,7 +21,7 @@ const Notification = () => {
     setShowAlert(false);
   }, [location, setShowAlert]);
 
-  return showAlert ? <Alert message={alert.message} color={color} onClose={() => setShowAlert(false)} /> : "";
+  return showAlert ? <Alert {...alert} onClose={() => setShowAlert(false)} /> : "";
 };
 
 export default Notification;
