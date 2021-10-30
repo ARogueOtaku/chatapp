@@ -53,8 +53,8 @@ const Login = () => {
         <input
           type="button"
           name="login"
-          className={`border border-solid border-gray-300 outline-none py-1.5 px-3 text-base w-80 rounded-lg bg-gray-800 text-white ${
-            userLoading ? "opacity-30 cursor-not-allowed" : "opacity-100 cursor-pointer"
+          className={`border border-solid border-gray-300 outline-none py-1.5 px-3 text-base w-80 rounded-lg bg-gray-800 text-white cursor-pointer ${
+            userLoading ? "opacity-30 pointer-events-none" : "opacity-100"
           }`}
           value="Login"
           onClick={handleLogin}
